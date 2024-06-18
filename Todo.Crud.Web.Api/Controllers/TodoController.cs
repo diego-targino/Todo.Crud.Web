@@ -43,7 +43,7 @@ public class TodoController : ControllerBase
 
         CreateTodoResponseDTO createTodoResponseDTO = await _todoService.CreateAsync(createTodoDTO);
 
-        return Created(new Uri("https://localhost:7149/api/Todo/{id}"), createTodoResponseDTO);
+        return Created(new Uri($"https://localhost:7149/api/Todo/{createTodoResponseDTO.Id}"), createTodoResponseDTO);
     }
 
 
