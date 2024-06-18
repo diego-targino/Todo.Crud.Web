@@ -18,7 +18,7 @@ WORKDIR /src/Todo.Crud.Web.Api/
 COPY . .
 
 WORKDIR /src/
-COPY ["../Todo.Crud.Web.Domain/Todo.Crud.Web.Domain.csproj", "./Todo.Crud.Web.Domain/"]
+COPY ["./Todo.Crud.Web.Domain/Todo.Crud.Web.Domain.csproj", "./Todo.Crud.Web.Domain/"]
 COPY ["../.", "./"] 
 
 #RUN dotnet restore "../Todo.Crud.Web.Domain/Todo.Crud.Web.Domain.csproj"
