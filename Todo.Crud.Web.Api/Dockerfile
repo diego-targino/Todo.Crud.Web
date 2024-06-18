@@ -10,10 +10,10 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copiar arquivos de projeto e restaurar dependências
-COPY ["../Todo.Crud.Web.CrossCutting/*", "./Todo.Crud.Web.CrossCutting/"]
-COPY ["../Todo.Crud.Web.Infrastructure/*", "./Todo.Crud.Web.Infrastructure/"]
-COPY ["../Todo.Crud.Web.Application/*", "./Todo.Crud.Web.Application/"]
-COPY ["../Todo.Crud.Web.Domain/*", "./Todo.Crud.Web.Domain/"]
+COPY ["../Todo.Crud.Web.CrossCutting/", "./Todo.Crud.Web.CrossCutting/"]
+COPY ["../Todo.Crud.Web.Infrastructure/", "./Todo.Crud.Web.Infrastructure/"]
+COPY ["../Todo.Crud.Web.Application/", "./Todo.Crud.Web.Application/"]
+COPY ["../Todo.Crud.Web.Domain/", "./Todo.Crud.Web.Domain/"]
 COPY ["Todo.Crud.Web.Api.csproj", "./Todo.Crud.Web.Api/"]
 
 RUN dotnet restore "./Todo.Crud.Web.Domain/Todo.Crud.Web.Domain.csproj"
