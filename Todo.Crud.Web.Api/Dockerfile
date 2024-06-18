@@ -15,6 +15,7 @@ RUN dotnet restore "Todo.Crud.Web.Api.csproj"
 
 # Copiar todos os arquivos e construir a aplicação
 COPY . .
+COPY . ./
 WORKDIR "/src"
 RUN dotnet build "Todo.Crud.Web.Api.csproj" -c Release -o /app/build
 
