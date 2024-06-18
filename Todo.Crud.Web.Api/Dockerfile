@@ -21,7 +21,7 @@ COPY . .
 #RUN dotnet restore "../Todo.Crud.Web.Application/Todo.Crud.Web.Application.csproj"
 #RUN dotnet restore "../Todo.Crud.Web.Infrastructure/Todo.Crud.Web.Infrastructure.csproj"
 #RUN dotnet restore "../Todo.Crud.Web.CrossCutting/Todo.Crud.Web.CrossCutting.csproj"
-RUN dotnet restore "../Todo.Crud.Web.Api/Todo.Crud.Web.Api/Todo.Crud.Web.Api.csproj"
+RUN dotnet restore "./Todo.Crud.Web.Api/Todo.Crud.Web.Api.csproj"
 
 RUN dotnet build "./Todo.Crud.Web.Api/Todo.Crud.Web.Api.csproj" -c Release -o /app/build
 
