@@ -15,7 +15,7 @@ COPY ["Todo.Crud.Web.Api.csproj", "./Todo.Crud.Web.Api/"]
 
 # Copiar todos os arquivos e construir a aplicação
 WORKDIR /src/Todo.Crud.Web.Api/
-COPY ..
+COPY . .
 
 WORKDIR /src/
 COPY ../Todo.Crud.Web.*
