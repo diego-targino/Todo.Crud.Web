@@ -13,11 +13,12 @@ RUN dotnet restore "Todo.Crud.Web.Api.csproj"
 
 # Copiar todos os arquivos e construir a aplicação
 COPY . .
+WORKDIR "/src/Todo.Crud.Web.Api"
 RUN dotnet build "Todo.Crud.Web.Api.csproj" -c Release -o /app/build
 
 # Etapa de publicação
 FROM build AS publish
-RUN dotnet publish "Todo.Crud.Web.Api.csproj" -c Release -o /app/publish
+RUN dotnet publish "Todo.Crud.Web.Api.csproj" -c Release -o /app/publish 
 
 # Etapa final
 FROM base AS final
