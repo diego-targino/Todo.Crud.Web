@@ -1,5 +1,7 @@
 # Etapa base
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+ARG Todo.Crud.Web.Api.csproj
+
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
