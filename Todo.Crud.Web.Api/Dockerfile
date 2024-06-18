@@ -7,12 +7,24 @@ EXPOSE 8080
 EXPOSE 8081
 # Etapa de construção
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
 
 # Copiar arquivos de projeto e restaurar dependências
-COPY ["Todo.Crud.Web.Api.csproj", "./Todo.Crud.Web.Api/"]
 
+WORKDIR /src/Todo.Crud.Web.Domain/
+COPY ["../Todo.Crud.Web.Domain/Todo.Crud.Web.Domain.csproj", "."]
+RUN dotnet restore "./Todo.Crud.Web.Domain.csproj"
+
+WORKDIR /src
+COPY ["Todo.Crud.Web.Api.csproj", "./Todo.Crud.Web.Api/"]
 RUN dotnet restore "./Todo.Crud.Web.Api/Todo.Crud.Web.Api.csproj"
+
+WORKDIR /src/Todo.Crud.Web.CrossCutting/
+COPY ["../Todo.Crud.Web.CrossCutting/.", "."]
+RUN dotnet restore "./Todo.Crud.Web.CrossCutting.csproj"
+
+WORKDIR /src/Todo.Crud.Web.Infrastructure/
+COPY ["../Todo.Crud.Web.Infrastructure/.", "."]
+RUN dotnet restore "./Todo.Crud.Web.Infrastructure.csproj"
  
 # Copiar todos os arquivos e construir a aplicação
 WORKDIR "/src/Todo.Crud.Web.Api/"
