@@ -22,9 +22,9 @@ WORKDIR /src/Todo.Crud.Web.CrossCutting/
 COPY ["../Todo.Crud.Web.CrossCutting/.", "."]
 RUN dotnet restore "./Todo.Crud.Web.CrossCutting.csproj"
 
-WORKDIR /src/Todo.Crud.Web.Infrastructure/
-COPY ["../Todo.Crud.Web.Infrastructure/.", "."]
-RUN dotnet restore "./Todo.Crud.Web.Infrastructure.csproj"
+#WORKDIR /src/Todo.Crud.Web.Infrastructure/
+#COPY ["../Todo.Crud.Web.Infrastructure/.", "."]
+#RUN dotnet restore "./Todo.Crud.Web.Infrastructure.csproj"
  
 # Copiar todos os arquivos e construir a aplicação
 WORKDIR "/src/Todo.Crud.Web.Api/"
