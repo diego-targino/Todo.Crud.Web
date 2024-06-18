@@ -16,7 +16,7 @@ COPY ["Todo.Crud.Web.Api.csproj", "./Todo.Crud.Web.Api/"]
 # Copiar todos os arquivos e construir a aplicação
 WORKDIR /src/
 COPY . .
-
+RUN docker ps -a
 #RUN dotnet restore "../Todo.Crud.Web.Domain/Todo.Crud.Web.Domain.csproj"
 #RUN dotnet restore "../Todo.Crud.Web.Application/Todo.Crud.Web.Application.csproj"
 #RUN dotnet restore "../Todo.Crud.Web.Infrastructure/Todo.Crud.Web.Infrastructure.csproj"
