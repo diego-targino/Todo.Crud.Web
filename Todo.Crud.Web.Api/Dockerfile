@@ -26,7 +26,7 @@ COPY ["../Todo.Crud.Web.Application/.", "./Todo.Crud.Web.Application/"]
 RUN dotnet restore "./Todo.Crud.Web.Application/Todo.Crud.Web.Application.csproj"
 
 WORKDIR /src
-COPY ["../Todo.Crud.Web.Domain/.", "./Todo.Crud.Web.Domain/"]
+COPY ["../Todo.Crud.Web.Domain/Todo.Crud.Web.Domain.csproj", "./Todo.Crud.Web.Domain/"]
 RUN dotnet restore "./Todo.Crud.Web.Domain/Todo.Crud.Web.Domain.csproj"
  
 # Copiar todos os arquivos e construir a aplicação
