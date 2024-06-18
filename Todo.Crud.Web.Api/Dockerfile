@@ -13,16 +13,19 @@ WORKDIR /src
 COPY ["Todo.Crud.Web.Api.csproj", "./Todo.Crud.Web.Api/"]
 RUN dotnet restore "./Todo.Crud.Web.Api/Todo.Crud.Web.Api.csproj"
 
-
+WORKDIR /src
 COPY ["../Todo.Crud.Web.CrossCutting/.", "./Todo.Crud.Web.CrossCutting/"]
 RUN dotnet restore "./Todo.Crud.Web.CrossCutting/Todo.Crud.Web.CrossCutting.csproj"
 
+WORKDIR /src
 COPY ["../Todo.Crud.Web.Infrastructure/.", "./Todo.Crud.Web.Infrastructure/"]
 RUN dotnet restore "./Todo.Crud.Web.Infrastructure/Todo.Crud.Web.Infrastructure.csproj"
 
+WORKDIR /src
 COPY ["../Todo.Crud.Web.Application/.", "./Todo.Crud.Web.Application/"]
 RUN dotnet restore "./Todo.Crud.Web.Application/Todo.Crud.Web.Application.csproj"
 
+WORKDIR /src
 COPY ["../Todo.Crud.Web.Domain/.", "./Todo.Crud.Web.Domain/"]
 RUN dotnet restore "./Todo.Crud.Web.Domain/Todo.Crud.Web.Domain.csproj"
  
