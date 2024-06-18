@@ -1,29 +1,34 @@
-# Imagem base para o build
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+# Etapa base
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+ARG Todo.Crud.Web.Api.csproj
+
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
+# Etapa de construção
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
 
-# Copia o arquivo de solução e projetos para o contêiner
-COPY ["../Todo.Crud.Web.Api/*.csproj", "./Todo.Crud.Web.Api/"]
-COPY Todo.Crud.Web.Application/*.csproj ./Todo.Crud.Web.Application/
-COPY Todo.Crud.Web.CrossCutting/*.csproj ./Todo.Crud.Web.CrossCutting/
-COPY Todo.Crud.Web.Domain/*.csproj ./Todo.Crud.Web.Domain/
-COPY Todo.Crud.Web.Infrastructure/*.csproj ./Todo.Crud.Web.Infrastructure/
+# Copiar arquivos de projeto e restaurar dependências
+COPY ["Todo.Crud.Web.Api.csproj", "./Todo.Crud.Web.Api/"]
+COPY ["../Todo.Crud.Web.Application/Todo.Crud.Web.Application.csproj", "./Todo.Crud.Web.Application/"]
+COPY ["../Todo.Crud.Web.CrossCutting/Todo.Crud.Web.CrossCutting.csproj", "./Todo.Crud.Web.CrossCutting/"]
+COPY ["../Todo.Crud.Web.Domain/Todo.Crud.Web.Domain.csproj", "./Todo.Crud.Web.Domain/"]
+COPY ["../Todo.Crud.Web.Infrastructure/Todo.Crud.Web.Api.csproj", "./Todo.Crud.Web.Infrastructure/"]
+RUN dotnet restore "./Todo.Crud.Web.Api/Todo.Crud.Web.Api.csproj"
 
-# Restaura as dependências
-RUN dotnet restore
+# Copiar todos os arquivos e construir a aplicação
+WORKDIR "/src/Todo.Crud.Web.Api/"
+COPY . .
+WORKDIR /src
+RUN dotnet build "./Todo.Crud.Web.Api/Todo.Crud.Web.Api.csproj" -c Release -o /app/build
 
-# Copia todos os arquivos restantes e constrói o projeto
-COPY . ./
-RUN dotnet publish "Todo.Crud.Web.Api/Todo.Crud.Web.Api.csproj" -c Release -o /app/publish
+# Etapa de publicação
+FROM build AS publish
+RUN dotnet publish "./Todo.Crud.Web.Api/Todo.Crud.Web.Api.csproj" -c Release -o /app/publish 
 
-# Imagem base para a execução
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+# Etapa final
+FROM base AS final
 WORKDIR /app
-
-# Copia os artefatos publicados da etapa de build
-COPY --from=build-env /app/publish .
-
-# Define o ponto de entrada
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Todo.Crud.Web.Api.dll"]
