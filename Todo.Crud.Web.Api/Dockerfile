@@ -1,30 +1,30 @@
-# Etapa base
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-ARG Todo.Crud.Web.Api.csproj
-
+# Imagem base para o build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
-# Etapa de construção
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
 
-# Copiar arquivos de projeto e restaurar dependências
-COPY ["Todo.Crud.Web.Api.csproj", "."]
-RUN dotnet restore "Todo.Crud.Web.Api.csproj"
+# Copia o arquivo de solução e projetos para o contêiner
+COPY Todo.Crud.Web.sln ./
+COPY Todo.Crud.Web.Api/*.csproj ./Todo.Crud.Web.Api/
+COPY Todo.Crud.Web.Application/*.csproj ./Todo.Crud.Web.Application/
+COPY Todo.Crud.Web.CrossCutting/*.csproj ./Todo.Crud.Web.CrossCutting/
+COPY Todo.Crud.Web.Domain/*.csproj ./Todo.Crud.Web.Domain/
+COPY Todo.Crud.Web.Infrastructure/*.csproj ./Todo.Crud.Web.Infrastructure/
 
-# Copiar todos os arquivos e construir a aplicação
-COPY . .
+# Restaura as dependências
+RUN dotnet restore
+
+# Copia todos os arquivos restantes e constrói o projeto
 COPY . ./
-WORKDIR "/src"
-RUN dotnet build "Todo.Crud.Web.Api.csproj" -c Release -o /app/build
+RUN dotnet publish "Todo.Crud.Web.Api/Todo.Crud.Web.Api.csproj" -c Release -o /app/publish
 
-# Etapa de publicação
-FROM build AS publish
-RUN dotnet publish "Todo.Crud.Web.Api.csproj" -c Release -o /app/publish 
-
-# Etapa final
-FROM base AS final
+# Imagem base para a execução
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=publish /app/publish .
+
+# Copia os artefatos publicados da etapa de build
+COPY --from=build-env /app/publish .
+
+# Define o ponto de entrada
 ENTRYPOINT ["dotnet", "Todo.Crud.Web.Api.dll"]
