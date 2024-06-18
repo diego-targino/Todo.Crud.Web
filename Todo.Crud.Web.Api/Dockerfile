@@ -11,7 +11,7 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0-nanoserver-1809 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["./Todo.Crud.Web.Api/Todo.Crud.Web.Api.csproj", "Todo.Crud.Web.Api/"]
+COPY ["Todo.Crud.Web.Api.csproj", "Todo.Crud.Web.Api/"]
 RUN dotnet restore "./Todo.Crud.Web.Api/Todo.Crud.Web.Api.csproj"
 COPY . .
 WORKDIR "/src/Todo.Crud.Web.Api"
