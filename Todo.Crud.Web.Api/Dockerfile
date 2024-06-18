@@ -11,12 +11,17 @@ WORKDIR /src
 
 # Copiar arquivos de projeto e restaurar dependências
 COPY ["Todo.Crud.Web.Api.csproj", "./Todo.Crud.Web.Api/"]
-COPY ["../Todo.Crud.Web.Application/Todo.Crud.Web.Application.csproj", "./Todo.Crud.Web.Application/"]
-COPY ["../Todo.Crud.Web.CrossCutting/Todo.Crud.Web.CrossCutting.csproj", "./Todo.Crud.Web.CrossCutting/"]
 COPY ["../Todo.Crud.Web.Domain/Todo.Crud.Web.Domain.csproj", "./Todo.Crud.Web.Domain/"]
+COPY ["../Todo.Crud.Web.Application/Todo.Crud.Web.Application.csproj", "./Todo.Crud.Web.Application/"]
 COPY ["../Todo.Crud.Web.Infrastructure/Todo.Crud.Web.Infrastructure.csproj", "./Todo.Crud.Web.Infrastructure/"]
-RUN dotnet restore "./Todo.Crud.Web.Api/Todo.Crud.Web.Api.csproj"
+COPY ["../Todo.Crud.Web.CrossCutting/Todo.Crud.Web.CrossCutting.csproj", "./Todo.Crud.Web.CrossCutting/"]
 
+RUN dotnet restore "./Todo.Crud.Web.Domain/Todo.Crud.Web.Domain.csproj"
+RUN dotnet restore "./Todo.Crud.Web.Application/Todo.Crud.Web.Application.csproj"
+RUN dotnet restore "./Todo.Crud.Web.Infrastructure/Todo.Crud.Web.Infrastructure.csproj"
+RUN dotnet restore "./Todo.Crud.Web.CrossCutting/Todo.Crud.Web.CrossCutting.csproj"
+RUN dotnet restore "./Todo.Crud.Web.Api/Todo.Crud.Web.Api.csproj"
+ 
 # Copiar todos os arquivos e construir a aplicação
 WORKDIR "/src/Todo.Crud.Web.Api/"
 COPY . .
