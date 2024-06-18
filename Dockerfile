@@ -11,14 +11,12 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 # Copiar arquivos de projeto e restaurar dependências
 
 WORKDIR /src
-COPY ["Todo.Crud.Web.Api.csproj", "./Todo.Crud.Web.Api/"]
+COPY ["./Todo.Crud.Web.Api/Todo.Crud.Web.Api.csproj", "./Todo.Crud.Web.Api/"]
 
 # Copiar todos os arquivos e construir a aplicação
-WORKDIR /src/Todo.Crud.Web.Api/
-COPY . .
 
 WORKDIR /src/
-COPY ["../.", "./"] 
+COPY [".", "."] 
 
 #RUN dotnet restore "../Todo.Crud.Web.Domain/Todo.Crud.Web.Domain.csproj"
 #RUN dotnet restore "../Todo.Crud.Web.Application/Todo.Crud.Web.Application.csproj"
